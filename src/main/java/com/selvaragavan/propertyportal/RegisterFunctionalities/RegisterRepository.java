@@ -1,7 +1,6 @@
 package com.selvaragavan.propertyportal.RegisterFunctionalities;
 
 import com.selvaragavan.propertyportal.Exceptions.UserNotFoundException;
-import com.selvaragavan.propertyportal.ResponseParser.StringMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,7 +18,7 @@ public class RegisterRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public StringMessage registerAUser(Map<String,String> userDetails){
+    public String registerAUser(Map<String,String> userDetails){
         String name = userDetails.get("name");
         String email = userDetails.get("email");
         String phoneNumber = userDetails.get("phoneNumber");
@@ -28,7 +27,7 @@ public class RegisterRepository {
         String sql = "INSERT INTO registeredUsers (name,email,phoneNumber,password,address) values(?,?,?,?,?)";
         if(alreadyRegistered(email)) throw new UserNotFoundException("You are already registered, please login");
         int affectedRows = jdbcTemplate.update(sql,name,email,phoneNumber,password,address);
-        return new StringMessage("You are registered succesffully, Login and continue");
+        return "You are registered succesffully, Login and continue";
     }
 
     public boolean alreadyRegistered(String email){

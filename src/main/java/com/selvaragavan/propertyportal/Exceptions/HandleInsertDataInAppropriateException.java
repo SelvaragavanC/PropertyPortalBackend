@@ -1,6 +1,5 @@
 package com.selvaragavan.propertyportal.Exceptions;
 
-import com.selvaragavan.propertyportal.ResponseParser.StringMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,8 +8,9 @@ import org.springframework.web.bind.annotation.*;
 public class HandleInsertDataInAppropriateException {
     @ExceptionHandler(value = InsertDataInAppropriateException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    @ResponseBody
-    public StringMessage handler(InsertDataInAppropriateException e){
-        return new StringMessage(e.getMessage());
+    public Message handler(InsertDataInAppropriateException e){
+        return new Message(e.getMessage());
     }
+
+    record Message(String message){}
 }

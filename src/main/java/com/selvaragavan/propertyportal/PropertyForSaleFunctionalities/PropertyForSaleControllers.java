@@ -1,6 +1,5 @@
 package com.selvaragavan.propertyportal.PropertyForSaleFunctionalities;
 
-import com.selvaragavan.propertyportal.ResponseParser.StringMessage;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,21 @@ public class PropertyForSaleControllers {
     }
 
     @PostMapping({"/sale/addProperty"})
-    public StringMessage addProperty(@RequestBody Map<String,String> propertyDetails){
-        return propertyForSaleRepository.addPropertyForSale(propertyDetails);
+    public Message addProperty(@RequestBody Map<String,String> propertyDetails){
+        System.out.println(propertyDetails);
+        return new Message(propertyForSaleRepository.addPropertyForSale(propertyDetails));
     }
+
+    @GetMapping({"sale/getProperties/{user}"})
+    public List<Map<String,Object>> getPropertiesOfUser(@PathVariable(value = "user") String userId){
+        return propertyForSaleRepository.getPropertiesByFilter(Integer.parseInt(userId));
+    }
+
+
+    @PostMapping({"/sale/updateProperty"})
+    public Message updateProperty(@RequestBody Map<String,String> propertyDetails){
+        return new Message(propertyForSaleRepository.updateProperty(propertyDetails));
+    }
+
+    record Message(String message){}
 }
